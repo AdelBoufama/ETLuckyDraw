@@ -24,18 +24,18 @@ public class LuckyDrawGUI extends Application {
     private Scene winnerScene;
     private Scene startScene;
 
-    public Button shuffleButton;
+    public Button goButton;
     public Button winnerButton;
 
-    private LuckyDraw luckyDraw;
+    private static LuckyDraw luckyDraw;
 
-    {
+    /*{
         try {
             luckyDraw = new LuckyDraw("LuckyDrawParticipants.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     public static void main(String[] args) throws IOException {
         launch(args);
@@ -69,21 +69,52 @@ public class LuckyDrawGUI extends Application {
         mainWindow.show();
     }
 
-    public void shuffleButtonPressed() throws IOException{
+    public void goButtonPressed() throws IOException{
         FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
         Parent shuffleRoot = loader2.load();
         ( (LuckyDrawGUI) loader2.getController() ).setPrimaryStage(mainWindow);
         shuffleScene = new Scene(shuffleRoot, 800,600);
+        //LuckyDraw luckyDraw;
+
+        {
+            try {
+                luckyDraw = new LuckyDraw("LuckyDrawParticipants.txt");
+            } catch (IOException e) {
+                luckyDraw = null;
+                e.printStackTrace();
+            }
+        }
+        int random;
+        ArrayList<String> numList = luckyDraw.getNumList();
+        random = luckyDraw.getRandomIndex();
+        System.out.println(numList.get(random));
+        luckyDraw.addPersonToWinList(numList.get(random));
+        luckyDraw.removePersonFromList(random);
+        //System.out.println(numList);
+
+
         mainWindow.setScene(shuffleScene);
     }
 
     public void randomWinnerButtonPressed() throws IOException{
-        FXMLLoader loader3 = new FXMLLoader (getClass().getResource("WinnerScene.fxml"));
-        Parent winnerRoot = loader3.load();
-        ( (LuckyDrawGUI) loader3.getController() ).setPrimaryStage(mainWindow);
-        winnerScene = new Scene(winnerRoot, 800,600);
-        mainWindow.setScene(winnerScene);
+        int random;
+        ArrayList<String> numList = luckyDraw.getNumList();
+        random = luckyDraw.getRandomIndex();
+        System.out.println(numList.get(random));
+        luckyDraw.addPersonToWinList(numList.get(random));
+        luckyDraw.removePersonFromList(random);
+        //System.out.println(numList);
+    }
 
+    public void finishButtonPressed() throws IOException{
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("SceneBuilder.fxml"));
+        Parent root = loader.load();
+        ( (LuckyDrawGUI) loader.getController() ).setPrimaryStage(mainWindow);
+        startScene = new Scene(root, 800,600);
+
+        mainWindow.setTitle("Lucky Draw!");
+        mainWindow.setScene(startScene);
     }
 
     public void setPrimaryStage(Stage stage){

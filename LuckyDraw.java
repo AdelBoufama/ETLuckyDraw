@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 public class LuckyDraw {
 
     private ArrayList<String> numList = new ArrayList<>();
+    private ArrayList<String> winnerList = new ArrayList<>();
     private Random randomNum;
 
     public LuckyDraw(String fileName) throws IOException{
@@ -25,8 +26,16 @@ public class LuckyDraw {
         randomNum = new Random();
     }
 
-    public void addPersonToList(String n){
+    public void addPersonToNumList(String n){
         this.numList.add(n);
+    }
+
+    public void addPersonToWinList(String n){
+        this.winnerList.add(n);
+    }
+
+    public void removePersonFromList(int n){
+        this.numList.remove(n);
     }
 
     public ArrayList<String> getNumList(){
@@ -54,6 +63,9 @@ public class LuckyDraw {
         ArrayList<String> numList = luckyDraw.getNumList();
         random = luckyDraw.getRandomIndex();
         System.out.println(numList.get(random));
+        luckyDraw.addPersonToWinList(numList.get(random));
+        luckyDraw.removePersonFromList(random);
+        System.out.println(numList);
 
     }
 }
