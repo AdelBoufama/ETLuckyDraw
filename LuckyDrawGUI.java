@@ -27,6 +27,12 @@ public class LuckyDrawGUI extends Application {
     public Button goButton;
     public Button winnerButton;
 
+    public Label firstWinner;
+    public Label secondWinner;
+    public Label thirdWinner;
+
+    public VBox winnerVbox;
+
     private static LuckyDraw luckyDraw;
 
     /*{
@@ -85,11 +91,11 @@ public class LuckyDrawGUI extends Application {
             }
         }
         int random;
-        ArrayList<String> numList = luckyDraw.getNumList();
-        random = luckyDraw.getRandomIndex();
-        System.out.println(numList.get(random));
-        luckyDraw.addPersonToWinList(numList.get(random));
-        luckyDraw.removePersonFromList(random);
+       // ArrayList<String> numList = luckyDraw.getNumList();
+       // random = luckyDraw.getRandomIndex();
+        //System.out.println(numList.get(random));
+       // luckyDraw.addPersonToWinList(numList.get(random));
+        //luckyDraw.removePersonFromList(random);
         //System.out.println(numList);
 
 
@@ -101,6 +107,8 @@ public class LuckyDrawGUI extends Application {
         ArrayList<String> numList = luckyDraw.getNumList();
         random = luckyDraw.getRandomIndex();
         System.out.println(numList.get(random));
+        firstWinner = new Label(numList.get(random));
+        winnerVbox.getChildren().add(firstWinner);
         luckyDraw.addPersonToWinList(numList.get(random));
         luckyDraw.removePersonFromList(random);
         //System.out.println(numList);

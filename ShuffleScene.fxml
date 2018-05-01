@@ -22,4 +22,13 @@
          </image>
       </ImageView>
    </left>
+   <right>
+      <VBox fx:id="winnerVbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="firstWinner"  />
+            <Label fx:id="secondWinner"  />
+            <Label fx:id="thirdWinner" />
+         </children>
+      </VBox>
+   </right>
 </BorderPane>
