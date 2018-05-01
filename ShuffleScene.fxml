@@ -15,20 +15,14 @@
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
-   <left>
-      <ImageView fitHeight="396.0" fitWidth="612.0" onMousePressed="#randomWinnerButtonPressed" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+   <right>
+      <VBox fx:id="winnerVbox" prefHeight="419.0" prefWidth="201.0" BorderPane.alignment="BOTTOM_LEFT" />
+   </right>
+   <center>
+      <ImageView fitHeight="480.0" fitWidth="480.0" onMousePressed="#randomWinnerButtonPressed" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER_LEFT">
          <image>
             <Image url="@Pictures/shuffleGif.gif" />
          </image>
       </ImageView>
-   </left>
-   <right>
-      <VBox fx:id="winnerVbox" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="firstWinner"  />
-            <Label fx:id="secondWinner"  />
-            <Label fx:id="thirdWinner" />
-         </children>
-      </VBox>
-   </right>
+   </center>
 </BorderPane>

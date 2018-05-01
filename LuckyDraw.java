@@ -46,6 +46,14 @@ public class LuckyDraw {
         return randomNum.nextInt(numList.size());
     }
 
+    public String getLastDigits(String phoneNum){
+        String lastDigits = null;
+
+        phoneNum.substring(4, phoneNum.length() - 1);
+
+        return lastDigits;
+    }
+
     public static void main(String[] args) {
 
         LuckyDraw luckyDraw;
@@ -62,7 +70,10 @@ public class LuckyDraw {
         int random;
         ArrayList<String> numList = luckyDraw.getNumList();
         random = luckyDraw.getRandomIndex();
-        System.out.println(numList.get(random));
+        String num = null;
+        num = numList.get(random).substring(4, numList.get(random).length() - 1);
+
+        System.out.println(num);
         luckyDraw.addPersonToWinList(numList.get(random));
         luckyDraw.removePersonFromList(random);
         System.out.println(numList);

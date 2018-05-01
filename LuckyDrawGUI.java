@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
@@ -10,6 +11,8 @@ import javafx.application.Application;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
@@ -27,13 +30,16 @@ public class LuckyDrawGUI extends Application {
     public Button goButton;
     public Button winnerButton;
 
-    public Label firstWinner;
+    public Text firstWinner;
+    public ArrayList<Text> winnerList;
     public Label secondWinner;
     public Label thirdWinner;
 
     public VBox winnerVbox;
 
     private static LuckyDraw luckyDraw;
+
+    private static int winCount;
 
     /*{
         try {
@@ -65,22 +71,15 @@ public class LuckyDrawGUI extends Application {
         mainWindow.setTitle("Lucky Draw!");
         mainWindow.setScene(startScene);
 
-
-        //FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
-        //Parent shuffleRoot = loader2.load();
-        //shuffleScene = new Scene(shuffleRoot, 800,600);
-        //mainWindow.setScene(shuffleScene);
-
-        //( (LuckyDrawGUI) loader.getController() ).setPrimaryStage(primaryStage);
         mainWindow.show();
     }
 
     public void goButtonPressed() throws IOException{
+        winCount = 0;
         FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
         Parent shuffleRoot = loader2.load();
         ( (LuckyDrawGUI) loader2.getController() ).setPrimaryStage(mainWindow);
         shuffleScene = new Scene(shuffleRoot, 800,600);
-        //LuckyDraw luckyDraw;
 
         {
             try {
@@ -90,28 +89,43 @@ public class LuckyDrawGUI extends Application {
                 e.printStackTrace();
             }
         }
-        int random;
-       // ArrayList<String> numList = luckyDraw.getNumList();
-       // random = luckyDraw.getRandomIndex();
-        //System.out.println(numList.get(random));
-       // luckyDraw.addPersonToWinList(numList.get(random));
-        //luckyDraw.removePersonFromList(random);
-        //System.out.println(numList);
-
 
         mainWindow.setScene(shuffleScene);
     }
 
     public void randomWinnerButtonPressed() throws IOException{
+        winCount++;
+        winnerList = new ArrayList<>();
         int random;
         ArrayList<String> numList = luckyDraw.getNumList();
         random = luckyDraw.getRandomIndex();
-        System.out.println(numList.get(random));
-        firstWinner = new Label(numList.get(random));
+
+        //System.out.println(numList.get(random));
+
+        firstWinner = new Text(winCount + ": (***)-***-" +
+                numList.get(random).substring(5, numList.get(random).length() - 1));
+        final double fontSize = 32.0;
+
+        winnerList.add(firstWinner);
+
+        for(Text winner : winnerList){
+            winner.setOnMouseClicked(e ->
+            {if(winner.isStrikethrough()){
+                winner.setStrikethrough(false);
+            }else {
+                winner.setStrikethrough(true);
+            }});
+        }
+
+        firstWinner.setFont(new Font(fontSize));
+        //firstWinner.setBoundsType(Pos.BOTTOM_LEFT);
         winnerVbox.getChildren().add(firstWinner);
+
+        AlertBox.display("WINNER NUMBER " + winCount, "(***)-***-" +
+        numList.get(random).substring(5, numList.get(random).length() - 1));
+
         luckyDraw.addPersonToWinList(numList.get(random));
         luckyDraw.removePersonFromList(random);
-        //System.out.println(numList);
     }
 
     public void finishButtonPressed() throws IOException{
