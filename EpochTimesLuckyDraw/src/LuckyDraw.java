@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 public class LuckyDraw {
 
     private ArrayList<String> numList = new ArrayList<>();
+    private ArrayList<String> winnerList = new ArrayList<>();
     private Random randomNum;
 
     public LuckyDraw(String fileName) throws IOException{
@@ -25,8 +26,16 @@ public class LuckyDraw {
         randomNum = new Random();
     }
 
-    public void addPersonToList(String n){
+    public void addPersonToNumList(String n){
         this.numList.add(n);
+    }
+
+    public void addPersonToWinList(String n){
+        this.winnerList.add(n);
+    }
+
+    public void removePersonFromList(int n){
+        this.numList.remove(n);
     }
 
     public ArrayList<String> getNumList(){
@@ -35,6 +44,14 @@ public class LuckyDraw {
 
     public int getRandomIndex(){
         return randomNum.nextInt(numList.size());
+    }
+
+    public String getLastDigits(String phoneNum){
+        String lastDigits = null;
+
+        phoneNum.substring(4, phoneNum.length() - 1);
+
+        return lastDigits;
     }
 
     public static void main(String[] args) {
@@ -53,7 +70,13 @@ public class LuckyDraw {
         int random;
         ArrayList<String> numList = luckyDraw.getNumList();
         random = luckyDraw.getRandomIndex();
-        System.out.println(numList.get(random));
+        String num = null;
+        num = numList.get(random).substring(4, numList.get(random).length() - 1);
+
+        System.out.println(num);
+        luckyDraw.addPersonToWinList(numList.get(random));
+        luckyDraw.removePersonFromList(random);
+        System.out.println(numList);
 
     }
 }
