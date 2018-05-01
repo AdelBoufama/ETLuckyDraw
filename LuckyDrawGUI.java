@@ -21,7 +21,12 @@ public class LuckyDrawGUI extends Application {
 
     private Stage mainWindow;
     private Scene shuffleScene;
+    private Scene winnerScene;
     private Scene startScene;
+
+    public Button shuffleButton;
+    public Button winnerButton;
+
     private LuckyDraw luckyDraw;
 
     {
@@ -44,7 +49,7 @@ public class LuckyDrawGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         //needs to read from text or Excel file
-        mainWindow = primaryStage;
+        this.mainWindow = primaryStage;
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("SceneBuilder.fxml"));
         Parent root = loader.load();
@@ -53,6 +58,7 @@ public class LuckyDrawGUI extends Application {
 
         mainWindow.setTitle("Lucky Draw!");
         mainWindow.setScene(startScene);
+
 
         //FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
         //Parent shuffleRoot = loader2.load();
@@ -66,8 +72,18 @@ public class LuckyDrawGUI extends Application {
     public void shuffleButtonPressed() throws IOException{
         FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
         Parent shuffleRoot = loader2.load();
+        ( (LuckyDrawGUI) loader2.getController() ).setPrimaryStage(mainWindow);
         shuffleScene = new Scene(shuffleRoot, 800,600);
         mainWindow.setScene(shuffleScene);
+    }
+
+    public void randomWinnerButtonPressed() throws IOException{
+        FXMLLoader loader3 = new FXMLLoader (getClass().getResource("WinnerScene.fxml"));
+        Parent winnerRoot = loader3.load();
+        ( (LuckyDrawGUI) loader3.getController() ).setPrimaryStage(mainWindow);
+        winnerScene = new Scene(winnerRoot, 800,600);
+        mainWindow.setScene(winnerScene);
+
     }
 
     public void setPrimaryStage(Stage stage){

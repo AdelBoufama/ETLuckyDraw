@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LuckyDrawGUI">
+   <center>
+      <ImageView fitHeight="396.0" fitWidth="612.0" onMousePressed="#randomWinnerButtonPressed" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <image>
+            <Image url="@Pictures/shuffleGif.gif" />
+         </image>
+      </ImageView>
+   </center>
+   <bottom>
+      <Button fx:id="winnerButton" mnemonicParsing="false" onAction="#shuffleButtonPressed" prefHeight="68.0" text="AND THE WINNER IS..." BorderPane.alignment="CENTER" />
+   </bottom>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</BorderPane>
