@@ -13,7 +13,7 @@
    <bottom>
       <Button fx:id="goButton" mnemonicParsing="false" onAction="#goButtonPressed" prefHeight="68.0" prefWidth="122.0" text="GO" BorderPane.alignment="CENTER">
          <font>
-            <Font name="System Bold" size="36.0" />
+            <Font name="System Bold" size="24.0" />
          </font></Button>
    </bottom>
    <opaqueInsets>

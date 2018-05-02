@@ -75,7 +75,7 @@ public class LuckyDrawGUI extends Application {
         FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
         Parent shuffleRoot = loader2.load();
         ( (LuckyDrawGUI) loader2.getController() ).setPrimaryStage(mainWindow);
-        shuffleScene = new Scene(shuffleRoot, screenSize.getWidth(),screenSize.getHeight());
+        shuffleScene = new Scene(shuffleRoot, screenSize.getWidth(),screenSize.getHeight() - 20);
 
         {
             try {
@@ -147,7 +147,7 @@ public class LuckyDrawGUI extends Application {
         loader.setLocation(getClass().getResource("SceneBuilder.fxml"));
         Parent root = loader.load();
         ( (LuckyDrawGUI) loader.getController() ).setPrimaryStage(mainWindow);
-        startScene = new Scene(root, screenSize.getWidth(),screenSize.getHeight());
+        startScene = new Scene(root, screenSize.getWidth(),screenSize.getHeight() - 20);
 
         String text = "";
         int i;
