@@ -26,15 +26,17 @@ public class AlertBox {
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle(title);
         window.setWidth(750);
-        window.setHeight(250);
+        window.setHeight(350);
 
         Label label = new Label();
         final double fontSize = 85.0;
+        final double fontSize2 = 35.0;
 
 
         label.setFont(new Font(fontSize));
         label.setText(message);
         Button closeButton = new Button("Okay");
+        closeButton.setFont(new Font(fontSize2));
         closeButton.setOnAction(e -> window.close());
 
         VBox layout = new VBox(20);
