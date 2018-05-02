@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
@@ -8,9 +9,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LuckyDrawGUI">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LuckyDrawGUI">
    <bottom>
-      <Button fx:id="goButton" mnemonicParsing="false" onAction="#goButtonPressed" prefHeight="68.0" prefWidth="122.0" text="Go" BorderPane.alignment="CENTER" />
+      <Button fx:id="goButton" mnemonicParsing="false" onAction="#goButtonPressed" prefHeight="68.0" prefWidth="122.0" text="GO" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font></Button>
    </bottom>
    <opaqueInsets>
       <Insets />
@@ -26,7 +30,7 @@
                   <Image url="@Pictures/epoch-times-logo.jpg" />
                </image>
             </ImageView>
-            <ImageView fx:id="luckyDrawBanner" fitHeight="358.0" fitWidth="603.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="luckyDrawBanner" fitHeight="305.0" fitWidth="739.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@Pictures/luckyDrawBanner.png" />
                </image>

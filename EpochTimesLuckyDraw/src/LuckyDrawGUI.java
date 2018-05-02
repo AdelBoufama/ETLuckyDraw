@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,10 +15,11 @@ import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.Screen;
 
 public class LuckyDrawGUI extends Application {
 
-    private String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+    private String date = new SimpleDateFormat("dd--MM--yyyy----HH:mm").format(new Date());
 
     private Stage mainWindow;
     private Scene shuffleScene;
@@ -36,6 +37,8 @@ public class LuckyDrawGUI extends Application {
 
     private static int winCount;
 
+    Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
+
     public static void main(String[] args){
         launch(args);
     }
@@ -49,15 +52,15 @@ public class LuckyDrawGUI extends Application {
     public void start(Stage primaryStage) throws IOException {
         //needs to read from text or Excel file
         this.mainWindow = primaryStage;
+        primaryStage.setMaximized(true);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("SceneBuilder.fxml"));
         Parent root = loader.load();
         ( (LuckyDrawGUI) loader.getController() ).setPrimaryStage(primaryStage);
-        startScene = new Scene(root, 800,600);
+        startScene = new Scene(root, screenSize.getWidth(),screenSize.getHeight());
 
         mainWindow.setTitle("Lucky Draw!");
         mainWindow.setScene(startScene);
-
         mainWindow.show();
     }
 
@@ -72,7 +75,7 @@ public class LuckyDrawGUI extends Application {
         FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
         Parent shuffleRoot = loader2.load();
         ( (LuckyDrawGUI) loader2.getController() ).setPrimaryStage(mainWindow);
-        shuffleScene = new Scene(shuffleRoot, 800,600);
+        shuffleScene = new Scene(shuffleRoot, screenSize.getWidth(),screenSize.getHeight());
 
         {
             try {
@@ -84,7 +87,6 @@ public class LuckyDrawGUI extends Application {
         }
 
         luckyDraw.writeToParticipantFile();
-
         mainWindow.setScene(shuffleScene);
     }
 
@@ -107,7 +109,7 @@ public class LuckyDrawGUI extends Application {
 
         winner = new Text(winCount + ": (***)-***-" +
                 numList.get(random).substring(6, numList.get(random).length()));
-        final double fontSize = 32.0;
+        final double fontSize = 65.0;
 
         winnerList.add(winner);
         //luckyDraw.addPersonToWinList(winner.getText());
@@ -145,7 +147,7 @@ public class LuckyDrawGUI extends Application {
         loader.setLocation(getClass().getResource("SceneBuilder.fxml"));
         Parent root = loader.load();
         ( (LuckyDrawGUI) loader.getController() ).setPrimaryStage(mainWindow);
-        startScene = new Scene(root, 800,600);
+        startScene = new Scene(root, screenSize.getWidth(),screenSize.getHeight());
 
         String text = "";
         int i;
