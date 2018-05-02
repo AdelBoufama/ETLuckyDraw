@@ -39,6 +39,10 @@ public class LuckyDraw {
         this.winnerList.add(n);
     }
 
+    public ArrayList<String> getWinnerList() {
+        return winnerList;
+    }
+
     public void removePersonFromList(int n){
         this.numList.remove(n);
     }
