@@ -1,39 +1,34 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import java.util.Date;
+
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import javafx.application.Application;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.VBox;
-import javafx.geometry.Insets;
-import javafx.scene.control.CheckBox;
 import javafx.scene.Parent;
 import javafx.fxml.FXMLLoader;
 
 public class LuckyDrawGUI extends Application {
 
+    private String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+
     private Stage mainWindow;
     private Scene shuffleScene;
-    private Scene winnerScene;
     private Scene startScene;
 
     public Button goButton;
     public Button winnerButton;
 
-    public Text firstWinner;
-    public ArrayList<Text> winnerList;
-    public Label secondWinner;
-    public Label thirdWinner;
+    private Text winner;
+    private ArrayList<Text> winnerList = new ArrayList<>();
 
     public VBox winnerVbox;
 
@@ -41,15 +36,7 @@ public class LuckyDrawGUI extends Application {
 
     private static int winCount;
 
-    /*{
-        try {
-            luckyDraw = new LuckyDraw("LuckyDrawParticipants.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         launch(args);
     }
 
@@ -74,6 +61,12 @@ public class LuckyDrawGUI extends Application {
         mainWindow.show();
     }
 
+    /**
+     * This button starts the lucky draw game and enters the
+     * shuffle scene
+     * it also writes to the ParticipantsByDateTime.txt file
+     * @throws IOException
+     */
     public void goButtonPressed() throws IOException{
         winCount = 0;
         FXMLLoader loader2 = new FXMLLoader (getClass().getResource("ShuffleScene.fxml"));
@@ -90,23 +83,33 @@ public class LuckyDrawGUI extends Application {
             }
         }
 
+        luckyDraw.writeToParticipantFile();
+
         mainWindow.setScene(shuffleScene);
     }
 
+    /**
+     * This button is built in the gif of the shuffle animation
+     * each time it is pressed, a random winner will pop up in an
+     * AlertBox and the last 4 digits of their phone number will show up
+     * on the scene
+     * You could cross out numbers and uncross them by clicking if
+     * the participants leave or don't accept their prize
+     * @throws IOException
+     */
     public void randomWinnerButtonPressed() throws IOException{
         winCount++;
-        winnerList = new ArrayList<>();
         int random;
         ArrayList<String> numList = luckyDraw.getNumList();
         random = luckyDraw.getRandomIndex();
 
         //System.out.println(numList.get(random));
 
-        firstWinner = new Text(winCount + ": (***)-***-" +
+        winner = new Text(winCount + ": (***)-***-" +
                 numList.get(random).substring(5, numList.get(random).length() - 1));
         final double fontSize = 32.0;
 
-        winnerList.add(firstWinner);
+        winnerList.add(winner);
 
         for(Text winner : winnerList){
             winner.setOnMouseClicked(e ->
@@ -117,9 +120,9 @@ public class LuckyDrawGUI extends Application {
             }});
         }
 
-        firstWinner.setFont(new Font(fontSize));
+        winner.setFont(new Font(fontSize));
         //firstWinner.setBoundsType(Pos.BOTTOM_LEFT);
-        winnerVbox.getChildren().add(firstWinner);
+        winnerVbox.getChildren().add(winner);
 
         AlertBox.display("WINNER NUMBER " + winCount, "(***)-***-" +
         numList.get(random).substring(5, numList.get(random).length() - 1));
@@ -128,6 +131,13 @@ public class LuckyDrawGUI extends Application {
         luckyDraw.removePersonFromList(random);
     }
 
+    /**
+     * This button takes you back to the startScene where you could
+     * play the game again with the same phone numbers or change the numbers
+     * in the LuckyDrawParticipants.txt file
+     * It also puts all the winners on the WinnersByDateTime.txt file
+     * @throws IOException
+     */
     public void finishButtonPressed() throws IOException{
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("SceneBuilder.fxml"));
@@ -135,11 +145,33 @@ public class LuckyDrawGUI extends Application {
         ( (LuckyDrawGUI) loader.getController() ).setPrimaryStage(mainWindow);
         startScene = new Scene(root, 800,600);
 
+        String text = "";
+
+        for(Text phoneNum : winnerList){
+            if(!phoneNum.isStrikethrough()) {
+                text = text + System.lineSeparator() + phoneNum.getText();
+            }
+        }
+
+        text = text + System.lineSeparator() + "Date and Time: " + date +
+                System.lineSeparator();
+
+        File file = new File("WinnersByDateTime.txt");
+
+        if(file.exists()){
+            file.createNewFile();
+        }
+        //Files.write(Paths.get("ParticipantsByDateTime.txt"), text.getBytes());
+        FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        bufferedWriter.write(text);
+        bufferedWriter.close();
+
         mainWindow.setTitle("Lucky Draw!");
         mainWindow.setScene(startScene);
     }
 
-    public void setPrimaryStage(Stage stage){
+    private void setPrimaryStage(Stage stage){
         this.mainWindow = stage;
     }
 }
