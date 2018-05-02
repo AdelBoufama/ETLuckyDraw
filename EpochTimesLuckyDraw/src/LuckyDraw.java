@@ -1,18 +1,27 @@
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 import java.io.*;
 import java.io.IOException;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.PrintWriter;
+
 
 public class LuckyDraw {
 
     private ArrayList<String> numList = new ArrayList<>();
     private ArrayList<String> winnerList = new ArrayList<>();
     private Random randomNum;
+    private String date = new SimpleDateFormat
+            ("MM--dd--yyyy----HH:mm").format(new Date());
 
+    /**
+     * This constructor takes a file name to read particpants'
+     * phone numbers and puts them in the numList to use for later
+     * @param fileName
+     * @throws IOException
+     */
     public LuckyDraw(String fileName) throws IOException{
         try (BufferedReader fileReader = new BufferedReader(new FileReader(fileName))) {
             String line = fileReader.readLine();
@@ -24,10 +33,6 @@ public class LuckyDraw {
             }
         }
         randomNum = new Random();
-    }
-
-    public void addPersonToNumList(String n){
-        this.numList.add(n);
     }
 
     public void addPersonToWinList(String n){
@@ -46,12 +51,33 @@ public class LuckyDraw {
         return randomNum.nextInt(numList.size());
     }
 
-    public String getLastDigits(String phoneNum){
-        String lastDigits = null;
+    /**
+     * writes the list of all phone numbers plus date onto the
+     * ParticipantsByDateTime.txt file
+     * creates the file if it isnt found
+     * @throws IOException
+     */
+    public void writeToParticipantFile() throws IOException{
+        String text = "";
 
-        phoneNum.substring(4, phoneNum.length() - 1);
+        for(String phoneNum : numList){
+            text = text + System.lineSeparator() + phoneNum;
+        }
 
-        return lastDigits;
+        text = text + System.lineSeparator() + "Date and Time: " + date +
+        System.lineSeparator();
+
+        File file = new File("ParticipantsByDateTime.txt");
+
+        if(file.exists()){
+            file.createNewFile();
+        }
+        //Files.write(Paths.get("ParticipantsByDateTime.txt"), text.getBytes());
+        FileWriter writer = new FileWriter(file.getAbsoluteFile(), true);
+        BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        bufferedWriter.write(text);
+        bufferedWriter.close();
+
     }
 
     public static void main(String[] args) {
