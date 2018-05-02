@@ -106,10 +106,11 @@ public class LuckyDrawGUI extends Application {
         //System.out.println(numList.get(random));
 
         winner = new Text(winCount + ": (***)-***-" +
-                numList.get(random).substring(5, numList.get(random).length() - 1));
+                numList.get(random).substring(6, numList.get(random).length()));
         final double fontSize = 32.0;
 
         winnerList.add(winner);
+        //luckyDraw.addPersonToWinList(winner.getText());
 
         for(Text winner : winnerList){
             winner.setOnMouseClicked(e ->
@@ -125,8 +126,9 @@ public class LuckyDrawGUI extends Application {
         winnerVbox.getChildren().add(winner);
 
         AlertBox.display("WINNER NUMBER " + winCount, "(***)-***-" +
-        numList.get(random).substring(5, numList.get(random).length() - 1));
+        numList.get(random).substring(6, numList.get(random).length()));
 
+        //luckyDraw.addPersonToWinList(winner.getText());
         luckyDraw.addPersonToWinList(numList.get(random));
         luckyDraw.removePersonFromList(random);
     }
@@ -146,10 +148,14 @@ public class LuckyDrawGUI extends Application {
         startScene = new Scene(root, 800,600);
 
         String text = "";
-
-        for(Text phoneNum : winnerList){
-            if(!phoneNum.isStrikethrough()) {
-                text = text + System.lineSeparator() + phoneNum.getText();
+        int i;
+        for(i = 0; i < luckyDraw.getWinnerList().size(); i++){
+            if(winnerList.get(i).isStrikethrough()){
+                text = text + System.lineSeparator() +
+                        "Absent: " + luckyDraw.getWinnerList().get(i);
+            }else{
+                text = text + System.lineSeparator() +
+                        luckyDraw.getWinnerList().get(i);
             }
         }
 
