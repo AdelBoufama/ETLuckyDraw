@@ -1,2 +1,2 @@
 # ETLuckyDraw
-A simple lucky draw application I made for a work assignment, aint finished yet tho, I'll complete it by May 3rd 2018
+A simple lucky draw application I made for a work assignment. Finished as of May 3rd, 2018
